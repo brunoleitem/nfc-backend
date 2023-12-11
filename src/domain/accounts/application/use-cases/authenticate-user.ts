@@ -50,6 +50,11 @@ export class AuthenticateUserUseCase {
 
     return right({
       accessToken,
+      user: {
+        id: user.id,
+        email: user.email,
+        url: user.url,
+      },
     });
   }
 }
