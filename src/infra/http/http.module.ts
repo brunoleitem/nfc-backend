@@ -7,6 +7,8 @@ import { AuthenticateController } from "./controllers/accounts/authenticate.cont
 import { AuthenticateUserUseCase } from "@/domain/accounts/application/use-cases/authenticate-user";
 import { CreateUserUrlController } from "./controllers/url/create-url-controller";
 import { CreateUserUrlUseCase } from "@/domain/url/application/use-cases/create-user-url";
+import { GetUserUrlController } from "./controllers/url/get-user-urls-by-user-controller";
+import { GetUserUrlsByUserUseCase } from "@/domain/url/application/use-cases/get-user-urls-by-user";
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -14,11 +16,13 @@ import { CreateUserUrlUseCase } from "@/domain/url/application/use-cases/create-
     CreateAccountController,
     AuthenticateController,
     CreateUserUrlController,
+    GetUserUrlController,
   ],
   providers: [
     RegisterUserUseCase,
     AuthenticateUserUseCase,
     CreateUserUrlUseCase,
+    GetUserUrlsByUserUseCase,
   ],
 })
 export class HttpModule {}
