@@ -50,4 +50,12 @@ export class PrismaUserUrlRepository implements UserUrlRepository {
 
     await this.prisma.userUrl.create({ data });
   }
+
+  async delete(urlId: string): Promise<void> {
+    await this.prisma.userUrl.delete({
+      where: {
+        id: urlId,
+      },
+    });
+  }
 }
