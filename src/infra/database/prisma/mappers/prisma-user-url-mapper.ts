@@ -20,7 +20,7 @@ export class PrismaUserUrlMapper {
       id: userUrl.id.toString(),
       title: userUrl.title,
       slug: userUrl.slug.value,
-      user_id: userUrl.user_id.toValue(),
+      user_id: userUrl.user_id.toString(),
     };
   }
 }

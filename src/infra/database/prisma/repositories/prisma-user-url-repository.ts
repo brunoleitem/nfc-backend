@@ -35,6 +35,16 @@ export class PrismaUserUrlRepository implements UserUrlRepository {
     return PrismaUserUrlMapper.toDomain(userUrl);
   }
 
+  async findManyByUsers(user_id: string): Promise<UserUrl[]> {
+    const userUrls = await this.prisma.userUrl.findMany({
+      where: {
+        user_id,
+      },
+    });
+
+    return userUrls.map(PrismaUserUrlMapper.toDomain);
+  }
+
   async create(userUrl: UserUrl): Promise<void> {
     const data = PrismaUserUrlMapper.toPrisma(userUrl);
 
