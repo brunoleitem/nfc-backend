@@ -45,9 +45,10 @@ export class AuthenticateController {
       }
     }
 
-    const { accessToken } = result.value;
+    const { accessToken, user } = result.value;
     return {
       accessToken: accessToken,
+      user
     };
   }
 }

@@ -9,31 +9,20 @@ export class PrismaUsersRepository implements UsersRepository {
   constructor(private prisma: PrismaService) {}
 
   async findByEmail(email: string): Promise<User | null> {
-   const user = await this.prisma.user.findUnique({
-    where: {
-      email
-    }
-   })
-   if(!user) {
-    return null;
-   }
-   return PrismaUserMapper.toDomain(user)
-  }
-  async findByUrl(url: string): Promise<User | null> {
     const user = await this.prisma.user.findUnique({
       where: {
-        url
-     }
-    })
-     if(!user) {
+        email,
+      },
+    });
+    if (!user) {
       return null;
-     }
-     return PrismaUserMapper.toDomain(user)
+    }
+    return PrismaUserMapper.toDomain(user);
   }
+
   async create(user: User): Promise<void> {
-    const data = PrismaUserMapper.toPrisma(user)
+    const data = PrismaUserMapper.toPrisma(user);
 
-    await this.prisma.user.create({ data })
+    await this.prisma.user.create({ data });
   }
-
 }

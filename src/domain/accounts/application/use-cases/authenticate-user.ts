@@ -4,6 +4,7 @@ import { Injectable } from "@nestjs/common";
 import { UsersRepository } from "../repositories/users-repository";
 import { HashComparer } from "../crypto/hash-comparer";
 import { Encrypter } from "../crypto/encrypter";
+import { UID } from "@/core/entities/UID";
 
 interface AuthenticateUserUseCaseRequest {
   email: string;
@@ -14,6 +15,10 @@ type AuthenticateUserUseCaseResponse = Either<
   InvalidCredentialsError,
   {
     accessToken: string;
+    user: {
+      id: string;
+      email: string;
+    };
   }
 >;
 
@@ -45,15 +50,14 @@ export class AuthenticateUserUseCase {
     }
 
     const accessToken = await this.encrypter.encrypt({
-      sub: user.id.toString,
+      sub: user.id.toString(),
     });
 
     return right({
       accessToken,
       user: {
-        id: user.id,
+        id: user.id.toValue(),
         email: user.email,
-        url: user.url,
       },
     });
   }

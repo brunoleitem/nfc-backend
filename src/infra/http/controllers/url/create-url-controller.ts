@@ -14,30 +14,34 @@ import { z } from "zod";
 import { Public } from "@/infra/auth/public";
 import { RegisterUserUseCase } from "@/domain/accounts/application/use-cases/register-user";
 import { UserAlreadyExistsError } from "@/domain/accounts/application/use-cases/errors/user-exists-error";
+import { CurrentUser } from "@/infra/auth/current-user-decorator";
+import { TokenPayload } from "@/infra/auth/jwt.strategy";
+import { CreateUserUrlUseCase } from "@/domain/url/application/use-cases/create-user-url";
 
-const createAccountBodySchema = z.object({
-  name: z.string(),
-  email: z.string().email(),
-  password: z.string(),
+const createUserUrlBodySchema = z.object({
+  title: z.string(),
 });
 
-type CreateAccountBodySchema = z.infer<typeof createAccountBodySchema>;
+type CreateUserUrlBodySchema = z.infer<typeof createUserUrlBodySchema>;
 
-@Controller("/accounts")
-@Public()
-export class CreateAccountController {
-  constructor(private registerUser: RegisterUserUseCase) {}
+const bodyValidationPipe = new ZodValidationPipe(createUserUrlBodySchema);
+
+@Controller("/url")
+export class CreateUserUrlController {
+  constructor(private createUrl: CreateUserUrlUseCase) {}
 
   @Post()
   @HttpCode(201)
-  @UsePipes(new ZodValidationPipe(createAccountBodySchema))
-  async handle(@Body() body: CreateAccountBodySchema) {
-    const { name, email, password } = body;
+  async handle(
+    @Body(bodyValidationPipe) body: CreateUserUrlBodySchema,
+    @CurrentUser() token: TokenPayload
+  ) {
+    const { title } = body;
+    const user_id = token.sub;
 
-    const result = await this.registerUser.execute({
-      name,
-      email,
-      password,
+    const result = await this.createUrl.execute({
+      title,
+      user_id,
     });
 
     if (result.isLeft()) {

@@ -28,7 +28,6 @@ describe("Authenticate User", () => {
     const user = makeUser({
       email: "johndoe@example.com",
       password: await fakeHasher.hash("123456"),
-      url: "teste123",
     });
 
     inMemoryUsersRepository.items.push(user);
@@ -42,9 +41,8 @@ describe("Authenticate User", () => {
     expect(result.value).toEqual({
       accessToken: expect.any(String),
       user: {
-        id: expect.any(UID),
+        id: expect.any(String),
         email: expect.any(String),
-        url: expect.any(String),
       },
     });
   });

@@ -10,7 +10,6 @@ export function makeUser(override: Partial<UserProps> = {}, id?: UID) {
       name: faker.person.fullName(),
       email: faker.internet.email(),
       password: faker.internet.password(),
-      url: faker.internet.url(),
       ...override,
     },
     id

@@ -3,27 +3,19 @@ import { UsersRepository } from "@/domain/accounts/application/repositories/user
 import { User } from "@/domain/accounts/enterprise/entities/user";
 
 export class InMemoryUsersRepository implements UsersRepository {
-  public items: User[] = []
+  public items: User[] = [];
 
   async findByEmail(email: string): Promise<User | null> {
-    const user = this.items.find((item) => item.email === email)
+    const user = this.items.find((item) => item.email === email);
 
-    if(!user) return null
+    if (!user) return null;
 
-    return user
+    return user;
   }
 
-  async findByUrl(url: string): Promise<User | null> {
-    const user = this.items.find((item) => item.url === url)
-
-    if(!user) return null
-
-    return user
-  }
   async create(user: User): Promise<void> {
-    this.items.push(user)
+    this.items.push(user);
 
-    DomainEvents.dispatchEventsForAggregate(user.id)
+    DomainEvents.dispatchEventsForAggregate(user.id);
   }
-  
 }
