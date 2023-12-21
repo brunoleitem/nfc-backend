@@ -1,20 +1,20 @@
-import { UsersRepository } from "@/domain/accounts/application/repositories/users-repository";
-import { User } from "@/domain/accounts/enterprise/entities/user";
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../prisma.service";
-import { PrismaUserMapper } from "../mappers/prisma-users-mapper";
-import { UserUrlRepository } from "@/domain/url/application/repositories/user-url-repository";
+import { UrlRepository } from "@/domain/url/application/repositories/url-repository";
 import { UserUrl } from "@/domain/url/enterprise/entities/user-url";
 import { PrismaUserUrlMapper } from "../mappers/prisma-user-url-mapper";
 
 @Injectable()
-export class PrismaUserUrlRepository implements UserUrlRepository {
+export class PrismaUserUrlRepository implements UrlRepository {
   constructor(private prisma: PrismaService) {}
 
   async findBySlug(slug: string): Promise<UserUrl | null> {
     const userUrl = await this.prisma.userUrl.findFirst({
       where: {
         slug,
+      },
+      include: {
+        user_url_content: true,
       },
     });
     if (!userUrl) {

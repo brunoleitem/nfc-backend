@@ -1,6 +1,6 @@
 import { UserUrl } from "../../enterprise/entities/user-url";
 
-export abstract class UserUrlRepository {
+export abstract class UrlRepository {
   abstract findById(id: string): Promise<UserUrl | null>;
   abstract findManyByUsers(user_id: string): Promise<UserUrl[]>;
   abstract findBySlug(slug: string): Promise<UserUrl | null>;

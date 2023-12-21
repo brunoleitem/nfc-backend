@@ -1,13 +1,13 @@
 import { Injectable } from "@nestjs/common";
-import { UserUrlRepository } from "../repositories/user-url-repository";
+import { UrlRepository } from "../repositories/url-repository";
 import { Either, right } from "@/core/either";
 import { UserUrl } from "../../enterprise/entities/user-url";
 
-interface GetUserUrlsByUserUseCaseRequest {
+interface GetUserUrlsUseCaseRequest {
   user_id: string;
 }
 
-type GetUserUrlsByUserUseCaseResponse = Either<
+type GetUserUrlsUseCaseResponse = Either<
   null,
   {
     userUrl: UserUrl[];
@@ -15,13 +15,13 @@ type GetUserUrlsByUserUseCaseResponse = Either<
 >;
 
 @Injectable()
-export class GetUserUrlsByUserUseCase {
-  constructor(private userUrlRepository: UserUrlRepository) {}
+export class GetUserUrlsUseCase {
+  constructor(private repository: UrlRepository) {}
 
   async execute({
     user_id,
-  }: GetUserUrlsByUserUseCaseRequest): Promise<GetUserUrlsByUserUseCaseResponse> {
-    const data = await this.userUrlRepository.findManyByUsers(user_id);
+  }: GetUserUrlsUseCaseRequest): Promise<GetUserUrlsUseCaseResponse> {
+    const data = await this.repository.findManyByUsers(user_id);
 
     return right({ userUrl: data });
   }

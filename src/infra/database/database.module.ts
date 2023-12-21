@@ -2,7 +2,7 @@ import { Module } from "@nestjs/common";
 import { PrismaService } from "./prisma/prisma.service";
 import { UsersRepository } from "@/domain/accounts/application/repositories/users-repository";
 import { PrismaUsersRepository } from "./prisma/repositories/prisma-users-repository";
-import { UserUrlRepository } from "@/domain/url/application/repositories/user-url-repository";
+import { UrlRepository } from "@/domain/url/application/repositories/url-repository";
 import { PrismaUserUrlRepository } from "./prisma/repositories/prisma-user-url-repository";
 
 @Module({
@@ -13,10 +13,10 @@ import { PrismaUserUrlRepository } from "./prisma/repositories/prisma-user-url-r
       useClass: PrismaUsersRepository,
     },
     {
-      provide: UserUrlRepository,
+      provide: UrlRepository,
       useClass: PrismaUserUrlRepository,
     },
   ],
-  exports: [PrismaService, UsersRepository, UserUrlRepository],
+  exports: [PrismaService, UsersRepository, UrlRepository],
 })
 export class DatabaseModule {}

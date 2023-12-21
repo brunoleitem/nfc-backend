@@ -2,7 +2,7 @@ import { Either, left, right } from "@/core/either";
 import { NotAllowedError } from "@/core/errors/not-allowed-error";
 import { NotFoundError } from "@/core/errors/not-found-error";
 import { Injectable } from "@nestjs/common";
-import { UserUrlRepository } from "../repositories/user-url-repository";
+import { UrlRepository } from "../repositories/url-repository";
 
 interface DeleteUserUrlUseCaseRequest {
   userId: string;
@@ -16,7 +16,7 @@ type DeleteUserUrlUseCaseResponse = Either<
 
 @Injectable()
 export class DeleteUserUrlUseCase {
-  constructor(private repository: UserUrlRepository) {}
+  constructor(private repository: UrlRepository) {}
 
   async execute({
     urlId,

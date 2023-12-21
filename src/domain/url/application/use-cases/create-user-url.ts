@@ -1,10 +1,10 @@
 import { Injectable } from "@nestjs/common";
 import { Either, left, right } from "@/core/either";
 import { UserUrl } from "../../enterprise/entities/user-url";
-import { UserUrlRepository } from "../repositories/user-url-repository";
 import { Slug } from "../../enterprise/entities/value-objects/slug";
 import { URLAlreadyExistsError } from "./errors/url-exists-error";
 import { UID } from "@/core/entities/UID";
+import { UrlRepository } from "../repositories/url-repository";
 
 interface CreateUserUrlUseCaseRequest {
   title: string;
@@ -18,7 +18,7 @@ type CreateUserUrlUseCaseResponse = Either<
 
 @Injectable()
 export class CreateUserUrlUseCase {
-  constructor(private userUrlRepository: UserUrlRepository) {}
+  constructor(private repository: UrlRepository) {}
 
   async execute({
     title,
@@ -27,9 +27,7 @@ export class CreateUserUrlUseCase {
     //procura se o slug ja existe
     const urlSlug = Slug.createFromText(title);
 
-    const existsUrlSlug = await this.userUrlRepository.findBySlug(
-      urlSlug.value
-    );
+    const existsUrlSlug = await this.repository.findBySlug(urlSlug.value);
 
     if (existsUrlSlug) {
       return left(new URLAlreadyExistsError(title));
@@ -41,7 +39,7 @@ export class CreateUserUrlUseCase {
       user_id: new UID(user_id),
     });
 
-    await this.userUrlRepository.create(url);
+    await this.repository.create(url);
 
     return right({
       userUrl: url,
