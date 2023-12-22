@@ -6,4 +6,5 @@ export abstract class UrlRepository {
   abstract findBySlug(slug: string): Promise<UserUrl | null>;
   abstract create(url: UserUrl): Promise<void>;
   abstract delete(urlId: string): Promise<void>;
+  abstract save(url: UserUrl): Promise<void>;
 }

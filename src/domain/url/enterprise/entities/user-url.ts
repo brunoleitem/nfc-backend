@@ -13,6 +13,11 @@ export class UserUrl extends Entity<UserUrlProps> {
     return this.props.title;
   }
 
+  set title(title: string) {
+    this.props.title = title;
+    this.props.slug = Slug.createFromText(title);
+  }
+
   get user_id() {
     return this.props.user_id;
   }

@@ -58,4 +58,15 @@ export class PrismaUserUrlRepository implements UrlRepository {
       },
     });
   }
+
+  async save(url: UserUrl): Promise<void> {
+    const data = PrismaUserUrlMapper.toPrisma(url);
+    console.log(data);
+    this.prisma.userUrl.update({
+      where: {
+        id: url.id.toString(),
+      },
+      data,
+    });
+  }
 }
