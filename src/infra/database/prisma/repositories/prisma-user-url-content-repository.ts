@@ -31,8 +31,8 @@ export class PrismaUserUrlContentRepository
     }
     return PrismaUserUrlContentMapper.toDomain(content);
   }
-  delete(id: string): Promise<void> {
-    throw new Error("Method not implemented.");
+  async delete(id: string): Promise<void> {
+    await this.prisma.userUrlContent.delete({ where: { id } });
   }
   save(url: UserUrlContent): Promise<void> {
     throw new Error("Method not implemented.");

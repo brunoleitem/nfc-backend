@@ -16,6 +16,8 @@ import { GetUrlController } from "./controllers/url/get-url-by-id-controller";
 import { EditUserUrlUseCase } from "@/domain/url/application/use-cases/edit-user-url";
 import { EditUrlController } from "./controllers/url/edit-url-controller";
 import { CreateUserUrlContentUseCase } from "@/domain/url/application/use-cases/create-user-url-content";
+import { DeleteUserUrlContentController } from "./controllers/url/delete-url-content-controller";
+import { DeleteUserUrlContentUseCase } from "@/domain/url/application/use-cases/delete-user-url-content";
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -27,6 +29,7 @@ import { CreateUserUrlContentUseCase } from "@/domain/url/application/use-cases/
     DeleteUserUrlController,
     GetUrlController,
     EditUrlController,
+    DeleteUserUrlContentController,
   ],
   providers: [
     RegisterUserUseCase,
@@ -36,6 +39,7 @@ import { CreateUserUrlContentUseCase } from "@/domain/url/application/use-cases/
     DeleteUserUrlUseCase,
     GetUrlUseCase,
     EditUserUrlUseCase,
+    DeleteUserUrlContentUseCase,
     CreateUserUrlContentUseCase,
   ],
 })

@@ -5,14 +5,9 @@ import {
   Controller,
   HttpCode,
   Post,
-  UsePipes,
 } from "@nestjs/common";
-import { hash } from "bcryptjs";
 import { ZodValidationPipe } from "@/infra/http/pipes/zod-validation-pipe";
-import { PrismaService } from "@/infra/database/prisma/prisma.service";
 import { z } from "zod";
-import { Public } from "@/infra/auth/public";
-import { RegisterUserUseCase } from "@/domain/accounts/application/use-cases/register-user";
 import { UserAlreadyExistsError } from "@/domain/accounts/application/use-cases/errors/user-exists-error";
 import { CurrentUser } from "@/infra/auth/current-user-decorator";
 import { TokenPayload } from "@/infra/auth/jwt.strategy";
