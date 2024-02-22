@@ -3,10 +3,14 @@ import { PrismaService } from "../prisma.service";
 import { UrlRepository } from "@/domain/url/application/repositories/url-repository";
 import { UserUrl } from "@/domain/url/enterprise/entities/user-url";
 import { PrismaUserUrlMapper } from "../mappers/prisma-user-url-mapper";
+import { UserUrlContentRepository } from "@/domain/url/application/repositories/url-content-repository";
 
 @Injectable()
 export class PrismaUserUrlRepository implements UrlRepository {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private contentRepository: UserUrlContentRepository
+  ) {}
 
   async findBySlug(slug: string): Promise<UserUrl | null> {
     const userUrl = await this.prisma.userUrl.findFirst({
@@ -28,6 +32,9 @@ export class PrismaUserUrlRepository implements UrlRepository {
       where: {
         id,
       },
+      include: {
+        user_url_content: true,
+      },
     });
     if (!userUrl) {
       return null;
@@ -40,6 +47,9 @@ export class PrismaUserUrlRepository implements UrlRepository {
       where: {
         user_id,
       },
+      include: {
+        user_url_content: true,
+      },
     });
 
     return userUrls.map(PrismaUserUrlMapper.toDomain);
@@ -49,6 +59,10 @@ export class PrismaUserUrlRepository implements UrlRepository {
     const data = PrismaUserUrlMapper.toPrisma(userUrl);
 
     await this.prisma.userUrl.create({ data });
+
+    userUrl.content.map(async (content) => {
+      await this.contentRepository.create(content);
+    });
   }
 
   async delete(urlId: string): Promise<void> {

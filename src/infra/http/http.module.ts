@@ -15,6 +15,7 @@ import { GetUrlUseCase } from "@/domain/url/application/use-cases/get-url";
 import { GetUrlController } from "./controllers/url/get-url-by-id-controller";
 import { EditUserUrlUseCase } from "@/domain/url/application/use-cases/edit-user-url";
 import { EditUrlController } from "./controllers/url/edit-url-controller";
+import { CreateUserUrlContentUseCase } from "@/domain/url/application/use-cases/create-user-url-content";
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -35,6 +36,7 @@ import { EditUrlController } from "./controllers/url/edit-url-controller";
     DeleteUserUrlUseCase,
     GetUrlUseCase,
     EditUserUrlUseCase,
+    CreateUserUrlContentUseCase,
   ],
 })
 export class HttpModule {}

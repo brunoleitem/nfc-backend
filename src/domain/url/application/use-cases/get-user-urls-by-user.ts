@@ -22,7 +22,6 @@ export class GetUserUrlsUseCase {
     user_id,
   }: GetUserUrlsUseCaseRequest): Promise<GetUserUrlsUseCaseResponse> {
     const data = await this.repository.findManyByUsers(user_id);
-
     return right({ userUrl: data });
   }
 }

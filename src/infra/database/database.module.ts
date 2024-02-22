@@ -4,6 +4,8 @@ import { UsersRepository } from "@/domain/accounts/application/repositories/user
 import { PrismaUsersRepository } from "./prisma/repositories/prisma-users-repository";
 import { UrlRepository } from "@/domain/url/application/repositories/url-repository";
 import { PrismaUserUrlRepository } from "./prisma/repositories/prisma-user-url-repository";
+import { UserUrlContentRepository } from "@/domain/url/application/repositories/url-content-repository";
+import { PrismaUserUrlContentRepository } from "./prisma/repositories/prisma-user-url-content-repository";
 
 @Module({
   providers: [
@@ -16,7 +18,16 @@ import { PrismaUserUrlRepository } from "./prisma/repositories/prisma-user-url-r
       provide: UrlRepository,
       useClass: PrismaUserUrlRepository,
     },
+    {
+      provide: UserUrlContentRepository,
+      useClass: PrismaUserUrlContentRepository,
+    },
   ],
-  exports: [PrismaService, UsersRepository, UrlRepository],
+  exports: [
+    PrismaService,
+    UsersRepository,
+    UrlRepository,
+    UserUrlContentRepository,
+  ],
 })
 export class DatabaseModule {}

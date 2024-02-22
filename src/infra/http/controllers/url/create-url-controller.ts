@@ -18,8 +18,14 @@ import { CurrentUser } from "@/infra/auth/current-user-decorator";
 import { TokenPayload } from "@/infra/auth/jwt.strategy";
 import { CreateUserUrlUseCase } from "@/domain/url/application/use-cases/create-user-url";
 
+const UserUrlContentSchema = z.object({
+  title: z.string(),
+  content: z.string(),
+});
+
 const createUserUrlBodySchema = z.object({
   title: z.string(),
+  content: z.array(UserUrlContentSchema),
 });
 
 type CreateUserUrlBodySchema = z.infer<typeof createUserUrlBodySchema>;
@@ -36,11 +42,12 @@ export class CreateUserUrlController {
     @Body(bodyValidationPipe) body: CreateUserUrlBodySchema,
     @CurrentUser() token: TokenPayload
   ) {
-    const { title } = body;
+    const { title, content } = body;
     const user_id = token.sub;
 
     const result = await this.createUrl.execute({
       title,
+      content,
       user_id,
     });
 
